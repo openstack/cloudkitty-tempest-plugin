@@ -1,0 +1,6 @@
+[run]
+branch = True
+source = cloudkitty_tempest_plugin
+
+[report]
+ignore_errors = True
