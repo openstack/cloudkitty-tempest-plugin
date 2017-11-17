@@ -106,7 +106,7 @@ class RatingClient(rest_client.RestClient):
 
     def update_rating_module(self, module_name, description='',
                              enabled=False, hot_config=True, priority=1):
-        uri = '/rating/modules/'
+        uri = '/rating/modules/' + module_name + '/'
         request_body = {
             'module_id': module_name,
             'description': description,
