@@ -80,5 +80,6 @@ class BaseRatingTest(tempest.test.BaseTestCase):
             for item_id in item_ids:
                 try:
                     delete_method(item_id)
-                except exceptions.NotFound:
+                except (exceptions.NotFound,
+                        exceptions.UnexpectedResponseCode):
                     pass
