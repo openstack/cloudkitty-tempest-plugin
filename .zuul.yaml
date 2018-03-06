@@ -1,0 +1,9 @@
+- project:
+    check:
+      jobs:
+        - cloudkitty-tempest-full:
+            voting: true
+    gate:
+      jobs:
+        - cloudkitty-tempest-full:
+            voting: true
