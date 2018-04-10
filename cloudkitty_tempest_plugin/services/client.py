@@ -92,10 +92,10 @@ class RatingClient(rest_client.RestClient):
         uri = '/info/config/'
         return self._do_request('GET', uri)
 
-    def get_service(self, service_name=None):
-        uri = '/info/services/'
-        if service_name:
-            uri += service_name + '/'
+    def get_metric(self, metric_name=None):
+        uri = '/info/metrics/'
+        if metric_name:
+            uri += metric_name + '/'
         return self._do_request('GET', uri)
 
     def get_rating_module(self, module_name=None):
