@@ -134,13 +134,13 @@ class CloudkittyPrimaryAPITest(base.BaseRatingTest):
     def test_get_config(self):
         self.rating_client.get_config()
 
-    # @decorators.idempotent_id('43b03099-0493-4291-9749-85cd8d512811')
-    # def test_get_metrics(self):
-    #     self.rating_client.get_metric()
+    @decorators.idempotent_id('43b03099-0493-4291-9749-85cd8d512811')
+    def test_get_metrics(self):
+        self.rating_client.get_metric()
 
-    # @decorators.idempotent_id('64ecae87-0138-41bd-829f-91302dae7802')
-    # def test_get_metric(self):
-    #     self.rating_client.get_metric('cpu')
+    @decorators.idempotent_id('64ecae87-0138-41bd-829f-91302dae7802')
+    def test_get_metric(self):
+        self.rating_client.get_metric('instance')
 
     @decorators.idempotent_id('cccbff8a-24b2-4251-8f7b-ea941d048b9d')
     def test_report_summary(self):
