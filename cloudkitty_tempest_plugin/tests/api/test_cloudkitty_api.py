@@ -13,6 +13,8 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 #
+import testtools
+
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
 
@@ -118,10 +120,9 @@ class CloudkittyAdminAPITest(base.BaseRatingTest):
     def test_reload_rating_modules(self):
         self.rating_client.reload_rating_modules()
 
-    @base.skipIf('skip_rating_tests',
-                 'Rating role was not given to CloudKitty')
     @decorators.idempotent_id('e439019e-9e8a-4bcd-aa83-95bdba6e6115')
     def test_get_rated_tenants(self):
+        raise testtools.TestCase.skipException('No data pushed to backend.')
         rated_tenants = self.rating_client.get_rated_tenants()['body']
         self.assertGreater(len(rated_tenants), 0)
 
