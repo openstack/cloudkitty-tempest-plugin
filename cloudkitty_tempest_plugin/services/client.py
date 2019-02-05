@@ -34,7 +34,7 @@ class RatingClient(rest_client.RestClient):
 
     @staticmethod
     def deserialize(body):
-        return json.loads(body.replace("\n", ""))
+        return json.loads(body.decode().replace("\n", ""))
 
     @staticmethod
     def serialize(body):
