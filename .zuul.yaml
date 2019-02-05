@@ -6,8 +6,12 @@
       jobs:
         - cloudkitty-tempest-full:
             voting: true
+        - cloudkitty-tempest-full-python3:
+            voting: true
     gate:
       queue: cloudkitty
       jobs:
         - cloudkitty-tempest-full:
+            voting: true
+        - cloudkitty-tempest-full-python3:
             voting: true
