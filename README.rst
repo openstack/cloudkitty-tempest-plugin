@@ -15,10 +15,10 @@ exists in your OpenStack installation.
 Developers
 ----------
 For more information on cloudkitty, refer to:
-http://docs.openstack.org/developer/cloudkitty/
+https://docs.openstack.org/cloudkitty/latest/
 
 For more information on tempest plugins, refer to:
-http://docs.openstack.org/developer/tempest/plugin.html#using-plugins
+https://docs.openstack.org/tempest/latest/#using-plugins
 
 Bugs
 ----
