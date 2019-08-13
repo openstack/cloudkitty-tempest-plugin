@@ -23,3 +23,28 @@ https://docs.openstack.org/tempest/latest/#using-plugins
 Bugs
 ----
 Please report bugs to: https://storyboard.openstack.org/#!/project/890
+
+Installing
+----------
+
+Clone this repository and call from the repo::
+
+    $ pip install -e .
+
+Running the tests
+-----------------
+
+To run all the tests from this plugin, call from the tempest repo::
+
+    $ cd <Tempest Directory>
+    $ tox -e all -- cloudkitty_tempest_plugin
+
+To run a single test case, call with full path, for example::
+
+    $ cd <Tempest Directory>
+    $ tox -e all -- cloudkitty_tempest_plugin.tests.api.test_cloudkitty_api.CloudkittyAdminAPITest.test_get_collector_mappings
+
+To retrieve a list of all tempest tests, run::
+
+    $ cd <Tempest Directory>
+    $ testr list-tests
