@@ -3,15 +3,19 @@
       - tempest-plugin-jobs
       - check-requirements
     check:
-      jobs:
-        - cloudkitty-tempest-full:
+      jobs: &cloudkitty_tempest_jobs
+        - cloudkitty-tempest-full-v2-storage-influxdb:
             voting: true
-        - cloudkitty-tempest-full-python3:
+        - cloudkitty-tempest-full-v2-storage-influxdb-py3:
+            voting: true
+        - cloudkitty-tempest-full-v1-storage-sqlalchemy:
+            voting: true
+        - cloudkitty-tempest-full-v1-storage-sqlalchemy-py3:
+            voting: true
+        - cloudkitty-tempest-full-v2-storage-elasticsearch:
+            voting: true
+        - cloudkitty-tempest-full-v2-storage-elasticsearch-py3:
             voting: true
     gate:
       queue: cloudkitty
-      jobs:
-        - cloudkitty-tempest-full:
-            voting: true
-        - cloudkitty-tempest-full-python3:
-            voting: true
+      jobs: *cloudkitty_tempest_jobs
