@@ -25,12 +25,9 @@ from tempest import manager
 
 CONF = config.CONF
 
-CLOUDKITTY_API_VERSION = 'v1'
 
-
-class RatingClient(rest_client.RestClient):
-    """Implementation of cloudkittyclient for testing purposes"""
-    api_version = 'v1'
+class BaseRatingClient(rest_client.RestClient):
+    """Base class for cloudkittyclient implementations"""
 
     @staticmethod
     def deserialize(body):
@@ -49,6 +46,12 @@ class RatingClient(rest_client.RestClient):
         # ResponseBody inherits from dict, so lists must be converted
         body = dict(body=body) if isinstance(body, list) else body
         return rest_client.ResponseBody(resp, body)
+
+
+class RatingClientV1(BaseRatingClient):
+    """Implementation of cloudkittyclient for v1 endpoints"""
+
+    api_version = 'v1'
 
     def get_collector_mappings(self, service=None):
         uri = '/collector/mappings/'
@@ -389,21 +392,10 @@ class RatingClient(rest_client.RestClient):
                                 expected_code=204)
 
 
-class Manager(manager.Manager):
+class RatingClientV2(RatingClientV1):
+    """Implementation of cloudkittyclient for v2 endpoints"""
 
-    rating_params = {
-        'service': CONF.rating_plugin.service_name,
-        'region': CONF.identity.region,
-        'endpoint_type': CONF.rating_plugin.endpoint_type,
-    }
-
-    def __init__(self, credentials=None, service=None):
-        super(Manager, self).__init__(credentials)
-        self.set_rating_client()
-
-    def set_rating_client(self):
-        self.rating_client = RatingClient(self.auth_provider,
-                                          **self.rating_params)
+    api_version = 'v2'
 
 
 class CustomIdentityClient(object):
@@ -453,3 +445,24 @@ class CustomIdentityClient(object):
         return getattr(
             self._find_item(roles, 'name', 'rating'), 'id', None,
         )
+
+
+class Manager(manager.Manager):
+    rating_params = {
+        'service': CONF.rating_plugin.service_name,
+        'region': CONF.identity.region,
+        'endpoint_type': CONF.rating_plugin.endpoint_type,
+    }
+
+    def __init__(self, credentials=None, service=None):
+        super(Manager, self).__init__(credentials)
+        self.rating_clients = {
+            'v1': RatingClientV1(self.auth_provider, **self.rating_params),
+            'v2': RatingClientV2(self.auth_provider, **self.rating_params),
+        }
+
+    def get_rating_client(self, api_version='v2'):
+        if api_version not in self.rating_clients:
+            raise ValueError('API version must be one of the following: {}',
+                             list(self.rating_client.keys()))
+        return self.rating_clients[api_version]

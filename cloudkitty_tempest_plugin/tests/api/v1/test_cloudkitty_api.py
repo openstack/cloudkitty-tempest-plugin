@@ -22,7 +22,7 @@ from cloudkitty_tempest_plugin.tests.api import base
 
 
 class CloudkittyAdminAPITest(base.BaseRatingTest):
-
+    api_version = 'v1'
     credentials = ['admin']
 
     @decorators.idempotent_id('9c1d4c27-6e7c-42d7-b663-d88f097b7131')
@@ -128,7 +128,7 @@ class CloudkittyAdminAPITest(base.BaseRatingTest):
 
 
 class CloudkittyPrimaryAPITest(base.BaseRatingTest):
-
+    api_version = 'v1'
     credentials = ['primary']
 
     @decorators.idempotent_id('3285bccf-d043-4ad1-b64f-af4db8317cf9')

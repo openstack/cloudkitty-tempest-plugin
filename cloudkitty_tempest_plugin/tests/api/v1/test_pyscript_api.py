@@ -35,7 +35,7 @@ data = dumbfunc() + 2
 
 
 class CloudkittyPyscriptAPITest(base.BaseRatingTest):
-
+    api_version = 'v1'
     credentials = ['admin']
 
     @decorators.idempotent_id('2015c966-b707-40f7-b84d-9aa6550b9e41')
@@ -69,7 +69,7 @@ class CloudkittyPyscriptAPITest(base.BaseRatingTest):
 
 
 class CloudkittyPyscriptAPITestNegative(base.BaseRatingTest):
-
+    api_version = 'v1'
     credentials = ['admin']
 
     @decorators.idempotent_id('999c97cc-1d71-43b8-988f-d89b8fac4040')

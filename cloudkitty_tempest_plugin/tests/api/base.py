@@ -37,14 +37,14 @@ def skipIf(flag, reason):
 
 class BaseRatingTest(tempest.test.BaseTestCase):
     """Base test class for all Rating API tests."""
-
     client_manager = client.Manager
 
     @classmethod
     def setup_clients(cls):
         super(BaseRatingTest, cls).setup_clients()
         os_var = 'os_{}'.format(cls.credentials[0])
-        cls.rating_client = getattr(cls, os_var).rating_client
+        cls.rating_client = getattr(cls, os_var).get_rating_client(
+            getattr(cls, 'api_version'))
 
     @classmethod
     def setup_credentials(cls):

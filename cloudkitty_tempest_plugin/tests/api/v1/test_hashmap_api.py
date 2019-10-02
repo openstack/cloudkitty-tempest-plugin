@@ -20,7 +20,7 @@ from cloudkitty_tempest_plugin.tests.api import base
 
 
 class CloudkittyHashmapAPITest(base.BaseRatingTest):
-
+    api_version = 'v1'
     credentials = ['admin']
 
     @decorators.idempotent_id('7037a3f8-b462-4243-a0bc-ffa3b4700397')
