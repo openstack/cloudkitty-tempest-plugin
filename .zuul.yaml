@@ -10,6 +10,30 @@
             voting: true
         - cloudkitty-tempest-full-v2-storage-elasticsearch:
             voting: true
+        - cloudkitty-tempest-full-v2-storage-influxdb-ussuri
+        - cloudkitty-tempest-full-v2-storage-influxdb-train
+        - cloudkitty-tempest-full-v2-storage-influxdb-stein
     gate:
       queue: cloudkitty
       jobs: *cloudkitty_tempest_jobs
+
+- job:
+    name: cloudkitty-tempest-full-v2-storage-influxdb-ussuri
+    parent: cloudkitty-tempest-full-v2-storage-influxdb
+    override-checkout: stable/ussuri
+
+- job:
+    name: cloudkitty-tempest-full-v2-storage-influxdb-train
+    parent: cloudkitty-tempest-full-v2-storage-influxdb
+    override-checkout: stable/train
+    vars:
+      devstack_localrc:
+        USE_PYTHON3: True
+
+- job:
+    name: cloudkitty-tempest-full-v2-storage-influxdb-stein
+    parent: cloudkitty-tempest-full-v2-storage-influxdb
+    override-checkout: stable/stein
+    vars:
+      devstack_localrc:
+        USE_PYTHON3: True
