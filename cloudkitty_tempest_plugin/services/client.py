@@ -19,9 +19,10 @@ from keystoneauth1.identity import v3
 from keystoneauth1 import session
 from keystoneclient import client
 from oslo_serialization import jsonutils as json
+from tempest import clients as tempest_clients
 from tempest import config
 from tempest.lib.common import rest_client
-from tempest import manager
+from tempest.lib.services import clients
 
 CONF = config.CONF
 
@@ -447,7 +448,7 @@ class CustomIdentityClient(object):
         )
 
 
-class Manager(manager.Manager):
+class Manager(clients.ServiceClients):
     rating_params = {
         'service': CONF.rating_plugin.service_name,
         'region': CONF.identity.region,
@@ -455,7 +456,15 @@ class Manager(manager.Manager):
     }
 
     def __init__(self, credentials=None, service=None):
-        super(Manager, self).__init__(credentials)
+        dscv = CONF.identity.disable_ssl_certificate_validation
+        _, uri = tempest_clients.get_auth_provider_class(credentials)
+        super(Manager, self).__init__(
+            credentials=credentials,
+            identity_uri=uri,
+            scope='project',
+            disable_ssl_certificate_validation=dscv,
+            ca_certs=CONF.identity.ca_certificates_file,
+            trace_requests=CONF.debug.trace_requests)
         self.rating_clients = {
             'v1': RatingClientV1(self.auth_provider, **self.rating_params),
             'v2': RatingClientV2(self.auth_provider, **self.rating_params),
