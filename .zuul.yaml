@@ -10,12 +10,23 @@
             voting: true
         - cloudkitty-tempest-full-v2-storage-elasticsearch:
             voting: true
+        - cloudkitty-tempest-full-v2-storage-influxdb-wallaby
+        - cloudkitty-tempest-full-v2-storage-influxdb-victoria
         - cloudkitty-tempest-full-v2-storage-influxdb-ussuri
         - cloudkitty-tempest-full-v2-storage-influxdb-train
-        - cloudkitty-tempest-full-v2-storage-influxdb-stein
     gate:
       queue: cloudkitty
       jobs: *cloudkitty_tempest_jobs
+
+- job:
+    name: cloudkitty-tempest-full-v2-storage-influxdb-wallaby
+    parent: cloudkitty-tempest-full-v2-storage-influxdb
+    override-checkout: stable/wallaby
+
+- job:
+    name: cloudkitty-tempest-full-v2-storage-influxdb-victoria
+    parent: cloudkitty-tempest-full-v2-storage-influxdb
+    override-checkout: stable/victoria
 
 - job:
     name: cloudkitty-tempest-full-v2-storage-influxdb-ussuri
@@ -26,14 +37,6 @@
     name: cloudkitty-tempest-full-v2-storage-influxdb-train
     parent: cloudkitty-tempest-full-v2-storage-influxdb
     override-checkout: stable/train
-    vars:
-      devstack_localrc:
-        USE_PYTHON3: True
-
-- job:
-    name: cloudkitty-tempest-full-v2-storage-influxdb-stein
-    parent: cloudkitty-tempest-full-v2-storage-influxdb
-    override-checkout: stable/stein
     vars:
       devstack_localrc:
         USE_PYTHON3: True
