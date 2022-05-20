@@ -1,4 +1,5 @@
 - project:
+    queue: cloudkitty
     templates:
       - tempest-plugin-jobs
       - check-requirements
@@ -15,7 +16,6 @@
         - cloudkitty-tempest-full-v2-storage-influxdb-wallaby
         - cloudkitty-tempest-full-v2-storage-influxdb-victoria
     gate:
-      queue: cloudkitty
       jobs: *cloudkitty_tempest_jobs
 
 - job:
