@@ -15,6 +15,7 @@
 #
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
+from tempest.lib import exceptions
 
 from cloudkitty_tempest_plugin.tests.api import base
 
@@ -154,14 +155,57 @@ class CloudkittyHashmapAPITest(base.BaseRatingTest):
             mapping['mapping_id'],
         )
         self.assertEqual('dummy field', mapping['value'])
+        # We are creating this flag to allow the test to work for
+        # both old and new API version. We can remove this validation
+        # in the end of life of version 2024.1.
+        old_version = True
+        try:
+            self.rating_client.update_hashmap_mapping(
+                mapping['mapping_id'],
+                value='new value',
+            )
+        except exceptions.BadRequest as e:
+            old_version = False
+            self.assertTrue("You are allowed to update only the attribute "
+                            "[end] as this rule is already running as it "
+                            "started on " in e.resp_body['faultstring'])
+
+        if old_version:
+            mapping = self.rating_client.get_hashmap_mapping(
+                mapping['mapping_id']
+            )
+            self.assertEqual('new value', mapping['value'])
+            return
+
+        end_date = '3000-01-01T23:59:59'
+        # Disable follow redirects to avoid doing the request twice
+        # as it returns HTTP 302 in the first time and in the second
+        # time it raises an error as the end_date was already defined.
+        self.rating_client.http_obj.follow_redirects = False
         self.rating_client.update_hashmap_mapping(
             mapping['mapping_id'],
-            value='new value',
+            end=end_date
         )
+        try:
+            self.rating_client.update_hashmap_mapping(
+                mapping['mapping_id'],
+                end=end_date
+            )
+        except exceptions.BadRequest as e:
+            self.assertTrue("Cannot update a rule that was already "
+                            "processed and has a defined end date."
+                            in e.resp_body['faultstring'])
+
+        # Enable follow redirects
+        self.rating_client.http_obj.follow_redirects = True
+
         mapping = self.rating_client.get_hashmap_mapping(
             mapping['mapping_id']
         )
-        self.assertEqual('new value', mapping['value'])
+        # In the new version it is not more possible to
+        # update mappings anymore
+        self.assertEqual('dummy field', mapping['value'])
+        self.assertEqual(end_date, mapping['end'])
 
     @decorators.idempotent_id('0f9200ab-146b-4349-a579-ce12062f465b')
     def test_create_delete_hashmap_group(self):

@@ -50,11 +50,43 @@ class CloudkittyPyscriptAPITest(base.BaseRatingTest):
         )
         self._created_resources['pyscript'].append(pyscript['script_id'])
         self.assertEqual(pyscript['data'], SCRIPT_DATA_ONE)
+        # We are creating this flag to allow the test to work for
+        # both old and new API version. We can remove this validation
+        # in the end of life of version 2024.1.
+        old_version = True
+        try:
+            self.rating_client.update_pyscript(pyscript['script_id'],
+                                               data=SCRIPT_DATA_TWO,
+                                               name=pyscript['name'])
+        except lib_exc.BadRequest as e:
+            old_version = False
+            self.assertTrue("You are allowed to update only the attribute "
+                            "[end] as this rule is already running as it "
+                            "started on " in e.resp_body['faultstring'])
+
+        if old_version:
+            pyscript = self.rating_client.get_pyscript(pyscript['script_id'])
+            self.assertEqual(pyscript['data'], SCRIPT_DATA_TWO)
+            self.rating_client.delete_pyscript(pyscript['script_id'])
+            return
+
+        end_date = '3000-01-01T23:59:59'
+
         self.rating_client.update_pyscript(pyscript['script_id'],
-                                           data=SCRIPT_DATA_TWO,
-                                           name=pyscript['name'])
+                                           name=pyscript['name'],
+                                           end=end_date)
+        try:
+            self.rating_client.update_pyscript(pyscript['script_id'],
+                                               name=pyscript['name'],
+                                               end=end_date)
+        except lib_exc.BadRequest as e:
+            self.assertTrue("Cannot update a rule that was already "
+                            "processed and has a defined end date."
+                            in e.resp_body['faultstring'])
+
         pyscript = self.rating_client.get_pyscript(pyscript['script_id'])
-        self.assertEqual(pyscript['data'], SCRIPT_DATA_TWO)
+        self.assertEqual(pyscript['data'], SCRIPT_DATA_ONE)
+        self.assertEqual(pyscript['end'], end_date)
         self.rating_client.delete_pyscript(pyscript['script_id'])
 
     @decorators.idempotent_id('3fbaf8b4-c472-4509-8d73-55dc4a87a442')

@@ -241,7 +241,8 @@ class RatingClientV1(BaseRatingClient):
 
     def update_hashmap_mapping(self, mapping_id, cost=0,
                                field_id=None, group_id=None, map_type=None,
-                               service_id=None, tenant_id=None, value=None):
+                               service_id=None, tenant_id=None, value=None,
+                               end=None):
         args = locals()
         args.pop('self')
         uri = '/rating/module_config/hashmap/mappings/'
@@ -360,7 +361,7 @@ class RatingClientV1(BaseRatingClient):
         return self._do_request('GET', uri)
 
     @staticmethod
-    def _get_pyscript_request_body(name, data, checksum, script_id):
+    def _get_pyscript_request_body(name, data, checksum, script_id, end=None):
         args = locals()
         request_body = dict((k, v)
                             for k, v in args.items() if v is not None)
@@ -374,10 +375,12 @@ class RatingClientV1(BaseRatingClient):
                                 body=self.serialize(request_body),
                                 expected_code=201)
 
-    def update_pyscript(self, script_id, name=None, data=None, checksum=None):
+    def update_pyscript(self, script_id, name=None, data=None, checksum=None,
+                        end=None):
         uri = '/rating/module_config/pyscripts/scripts/'
         request_body = self._get_pyscript_request_body(name, data,
-                                                       checksum, script_id)
+                                                       checksum, script_id,
+                                                       end)
         return self._do_request('PUT', uri,
                                 body=self.serialize(request_body),
                                 expected_code=201)
