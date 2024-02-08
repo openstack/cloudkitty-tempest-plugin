@@ -13,7 +13,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 #
-import six
 
 from keystoneauth1.identity import v3
 from keystoneauth1 import session
@@ -211,7 +210,7 @@ class RatingClientV1(BaseRatingClient):
         args.pop('self')
         uri = '/rating/module_config/hashmap/mappings/'
         request_body = dict((k, v)
-                            for k, v in six.iteritems(args) if v is not None)
+                            for k, v in args.items() if v is not None)
         return self._do_request('GET', uri,
                                 body=self.serialize(request_body))
 
@@ -226,7 +225,7 @@ class RatingClientV1(BaseRatingClient):
         args.pop('self')
         uri = '/rating/module_config/hashmap/mappings/'
         request_body = dict((k, v)
-                            for k, v in six.iteritems(args) if v is not None)
+                            for k, v in args.items() if v is not None)
         return self._do_request('POST', uri,
                                 body=self.serialize(request_body),
                                 expected_code=201)
@@ -247,7 +246,7 @@ class RatingClientV1(BaseRatingClient):
         args.pop('self')
         uri = '/rating/module_config/hashmap/mappings/'
         request_body = dict((k, v)
-                            for k, v in six.iteritems(args) if v is not None)
+                            for k, v in args.items() if v is not None)
         return self._do_request('PUT', uri,
                                 body=self.serialize(request_body),
                                 expected_code=302)
@@ -312,7 +311,7 @@ class RatingClientV1(BaseRatingClient):
         args.pop('self')
         uri = '/rating/module_config/hashmap/thresholds/'
         request_body = dict((k, v)
-                            for k, v in six.iteritems(args) if v is not None)
+                            for k, v in args.items() if v is not None)
         return self._do_request('GET', uri,
                                 body=self.serialize(request_body))
 
@@ -323,7 +322,7 @@ class RatingClientV1(BaseRatingClient):
         args.pop('self')
         uri = '/rating/module_config/hashmap/thresholds/'
         request_body = dict((k, v)
-                            for k, v in six.iteritems(args) if v is not None)
+                            for k, v in args.items() if v is not None)
         return self._do_request('POST', uri,
                                 body=self.serialize(request_body),
                                 expected_code=201)
@@ -335,7 +334,7 @@ class RatingClientV1(BaseRatingClient):
         args.pop('self')
         uri = '/rating/module_config/hashmap/thresholds/'
         request_body = dict((k, v)
-                            for k, v in six.iteritems(args) if v is not None)
+                            for k, v in args.items() if v is not None)
         return self._do_request('PUT', uri,
                                 body=self.serialize(request_body),
                                 expected_code=302)
@@ -364,7 +363,7 @@ class RatingClientV1(BaseRatingClient):
     def _get_pyscript_request_body(name, data, checksum, script_id):
         args = locals()
         request_body = dict((k, v)
-                            for k, v in six.iteritems(args) if v is not None)
+                            for k, v in args.items() if v is not None)
         return request_body
 
     def create_pyscript(self, name, data, checksum=None, script_id=None):

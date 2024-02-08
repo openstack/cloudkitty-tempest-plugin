@@ -13,7 +13,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 #
-import six
 
 from tempest import config
 from tempest.lib import exceptions
@@ -74,7 +73,7 @@ class BaseRatingTest(tempest.test.BaseTestCase):
     @classmethod
     def resource_cleanup(cls):
         super(BaseRatingTest, cls).resource_cleanup()
-        for method, item_ids in six.iteritems(cls._created_resources):
+        for method, item_ids in cls._created_resources.items():
             delete_method = 'delete_' + method
             delete_method = getattr(cls.rating_client, delete_method)
             for item_id in item_ids:
