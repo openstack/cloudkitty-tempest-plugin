@@ -11,12 +11,17 @@
             voting: true
         - cloudkitty-tempest-full-v2-storage-elasticsearch:
             voting: true
+        - cloudkitty-tempest-full-v2-storage-influxdb-2023-2
         - cloudkitty-tempest-full-v2-storage-influxdb-2023-1
         - cloudkitty-tempest-full-v2-storage-influxdb-zed
-        - cloudkitty-tempest-full-v2-storage-influxdb-yoga
-        - cloudkitty-tempest-full-v2-storage-influxdb-xena
     gate:
       jobs: *cloudkitty_tempest_jobs
+
+- job:
+    name: cloudkitty-tempest-full-v2-storage-influxdb-2023-2
+    parent: cloudkitty-tempest-full-v2-storage-influxdb
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2023.1
 
 - job:
     name: cloudkitty-tempest-full-v2-storage-influxdb-2023-1
@@ -29,15 +34,3 @@
     parent: cloudkitty-tempest-full-v2-storage-influxdb
     nodeset: openstack-single-node-focal
     override-checkout: stable/zed
-
-- job:
-    name: cloudkitty-tempest-full-v2-storage-influxdb-yoga
-    parent: cloudkitty-tempest-full-v2-storage-influxdb
-    nodeset: openstack-single-node-focal
-    override-checkout: stable/yoga
-
-- job:
-    name: cloudkitty-tempest-full-v2-storage-influxdb-xena
-    parent: cloudkitty-tempest-full-v2-storage-influxdb
-    nodeset: openstack-single-node-focal
-    override-checkout: stable/xena
