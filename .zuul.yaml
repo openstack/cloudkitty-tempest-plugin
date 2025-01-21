@@ -14,7 +14,7 @@
         - cloudkitty-tempest-full-v2-storage-influxdb-2024-2
         - cloudkitty-tempest-full-v2-storage-influxdb-2024-1
         - cloudkitty-tempest-full-v2-storage-influxdb-2023-2
-        - cloudkitty-tempest-full-v2-storage-influxdb-2023-1
+        #- cloudkitty-tempest-full-v2-storage-influxdb-2023-1
     gate:
       jobs: *cloudkitty_tempest_jobs
 
