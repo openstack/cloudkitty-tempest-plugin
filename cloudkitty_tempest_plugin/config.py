@@ -15,6 +15,12 @@
 
 from oslo_config import cfg
 
+
+service_option = cfg.BoolOpt("cloudkitty",
+                             default=True,
+                             help="Whether or not cloudkitty is expected to "
+                                  "be available")
+
 rating_group = cfg.OptGroup(name='rating_plugin',
                             title='Rating Service Options')
 

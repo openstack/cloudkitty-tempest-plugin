@@ -31,12 +31,15 @@ class CloudkittyTempestPlugin(plugins.TempestPlugin):
         return full_test_dir, base_path
 
     def register_opts(self, conf):
+        conf.register_opt(project_config.service_option,
+                          group='service_available')
         config.register_opt_group(conf,
                                   project_config.rating_group,
                                   project_config.RatingGroup)
 
     def get_opt_lists(self):
         return [
+            ('service_available', [project_config.service_option]),
             (project_config.rating_group.name,
              project_config.RatingGroup),
         ]
