@@ -11,11 +11,17 @@
             voting: true
         - cloudkitty-tempest-full-v2-storage-elasticsearch:
             voting: true
+        - cloudkitty-tempest-full-v2-storage-influxdb-2025-2
         - cloudkitty-tempest-full-v2-storage-influxdb-2025-1
         - cloudkitty-tempest-full-v2-storage-influxdb-2024-2
-        - cloudkitty-tempest-full-v2-storage-influxdb-2024-1
     gate:
       jobs: *cloudkitty_tempest_jobs
+
+- job:
+    name: cloudkitty-tempest-full-v2-storage-influxdb-2025-2
+    parent: cloudkitty-tempest-full-v2-storage-influxdb
+    nodeset: openstack-single-node-noble
+    override-checkout: stable/2025.2
 
 - job:
     name: cloudkitty-tempest-full-v2-storage-influxdb-2025-1
@@ -28,9 +34,3 @@
     parent: cloudkitty-tempest-full-v2-storage-influxdb
     nodeset: openstack-single-node-jammy
     override-checkout: stable/2024.2
-
-- job:
-    name: cloudkitty-tempest-full-v2-storage-influxdb-2024-1
-    parent: cloudkitty-tempest-full-v2-storage-influxdb
-    nodeset: openstack-single-node-jammy
-    override-checkout: stable/2024.1
