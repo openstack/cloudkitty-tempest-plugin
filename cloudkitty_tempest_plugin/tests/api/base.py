@@ -23,20 +23,15 @@ from cloudkitty_tempest_plugin.services import client
 CONF = config.CONF
 
 
-def skipIf(flag, reason):
-    def decorator(f):
-        def wrapper(self, *args, **kwargs):
-            if getattr(self, flag):
-                self.skipTest(reason)
-            else:
-                f(self, *args, **kwargs)
-        return wrapper
-    return decorator
-
-
 class BaseRatingTest(tempest.test.BaseTestCase):
     """Base test class for all Rating API tests."""
     client_manager = client.Manager
+
+    @classmethod
+    def skip_checks(cls):
+        super().skip_checks()
+        if not CONF.service_available.cloudkitty:
+            raise cls.skipException('Cloudkitty is not enabled.')
 
     @classmethod
     def setup_clients(cls):

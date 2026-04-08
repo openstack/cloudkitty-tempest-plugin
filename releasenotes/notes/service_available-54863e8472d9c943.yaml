@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new ``[service_available] cloudkitty`` option has been added. This
+    controls whether the test cases which require cloudkitty actually runs,
+    even when this plugin is installed.
